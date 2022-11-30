@@ -1,8 +1,7 @@
-# MY TITLE
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+# MY PROJECT TITLE [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Description
-MY DESCRIPTION IS RIGHT HERE
+MY PROJECT DESCRIPTION
 
 ## Table of Contents
 
@@ -15,15 +14,15 @@ MY DESCRIPTION IS RIGHT HERE
 
 ## Installation
 
-STEPS OVER HERE
+INSTALL USING THIS
 
 ## Usage
 
-USAGE STEP 1,SCREEN 1
+STEP 1,STEP 2,SCREEN 1
 
 ## License
 
-This project is licensed under the [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT) license.
+This project is licensed under the [APACHE 2.0](https://opensource.org/licenses/Apache-2.0) license.
 
 ## Contributing
 
@@ -35,4 +34,4 @@ N/A
 
 ## Questions
 
-If you have any questions about the repo, open an issue or contact me directly at MAILEMAIL. You can find more of my work at [GITHUBHUB](https://github.com/GITHUBHUB/).
+If you have any questions about the repo, open an issue or contact me directly at address@email.com. You can find more of my work at [githubname](https://github.com/githubname/).
