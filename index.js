@@ -2,106 +2,17 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const generateMarkdown = require("./utils/generateMarkdown");
+const {
+    projectInfo,
+    usageStep,
+    screenshot,
+    additionalStep,
+    selectLicense,
+    contributingInfo,
+    testExample,
+    questionsInfo
+} = require("./utils/questions");
 const outputFileName = "README.md";
-
-// TODO: Create an array of questions for user input
-const projectInfo = [
-    {
-        type: 'input',
-        message: 'Project Title -\n' + 
-        'What is the title of your project?\n\n',
-        name: 'title',
-    },
-    {
-        type: "input",
-        message: "\nDescription - \n" +
-        "Provide a short description explaining the what, why and how of your project in this section. Use the following questions as a guide: \n" + 
-        "- What was your motivation?\n" +
-        "- Why did you build this project?\n" +
-        "- What problem does it solve?\n" +
-        "- What did you learn?\n\n",
-        name: "description",
-    },
-    {
-        type: "input",
-        message: "\nInstallation - \n" +
-        "What are the steps required to install your project?\n" +
-        "Provide a description of how to get the development environment running in this section.\n\n",
-        name: "installation",
-    }
-];
-
-const usageStep = [
-    {
-        type: "input",
-        message: "Enter a new usage step.\n\n",
-        name: "step",
-    },
-    {
-        type: "confirm",
-        message: "\nDo you need to add a screenshot for this step?",
-        name: "screenshotConfirm"
-    }
-];
-
-const screenshot = [
-    {
-        type: "input",
-        message: "Enter a new screenshot {ex. ![alt text](assets/images/screenshot.png) }\n\n",
-        name: "screenshot"
-    }
-];
-
-const additionalStep = [
-    {
-        type: "confirm",
-        message: "\nDo you need to add an additional step?",
-        name: "stepConfirm"
-    }
-];
-
-const selectLicense = [
-    {
-        type: "list",
-        message: "\nDo you need to add a license to your README?",
-        name: "license",
-        choices: [ "MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "N/A"],
-    }
-];
-
-const contributingInfo = [
-    {
-        type: "input",
-        message: "\nIf you created an application or package and would like other developers to contribute to it, you can include guidelines for how to do so. Otherwise, enter `N/A`\n\n",
-        name: "contributing",
-    }
-];
-
-const testExample = [
-    {
-        type: "input",
-        message: "\nEnter a new test example.\n\n",
-        name: "testInput",
-    },
-    {
-        type: "confirm",
-        message: "\nDo you need to add an additional example?",
-        name: "testConfirm",
-    }
-];
-
-const questionsInfo = [
-    {
-        type: "input",
-        message: "\nEnter your GitHub username.",
-        name: "github",
-    },
-    {
-        type: "input",
-        message: "\nEnter your email address.",
-        name: "email",
-    }
-];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
@@ -114,6 +25,7 @@ function writeToFile(fileName, data) {
     })
 }
 
+// The global const data object will hold all of the data gathered through inquirer and will be used to pass our data to generateMarkdown
 const data = {
     title: "",
     description: "",
@@ -126,19 +38,34 @@ const data = {
     email: "",
 };
 
-function getProjectInfo() {
+// TODO: Create a function to initialize app
+// The init function presents the user with a brief description of the application and starts by calling getProjectInfo
+function init() {
+    console.log("To use this application, you will be presented with a section within the generated README file\n" +
+"and will be asked a series of questions to create the information that will be included in that section.");
+    console.log("Starting the README generator...\n");
+    
+    getProjectInfo();
+}
 
+// This function calls inquirer using the `projectInfo` array of questions to obtain the project title, description, and installation from the user
+// When finished, the answers are stored in data and getUsage is called
+function getProjectInfo() {
     inquirer.prompt(projectInfo).then((answers) => {
         data.title = answers.title;
         data.description = answers.description;
         data.installation = answers.installation;
-        console.log("\nUsage -\nProvide instructions and examples for using your project in this section. Include screenshots as needed.");
+        console.log("\nUsage -\nProvide instructions and examples for using your project in this section.\n" +
+        "Include screenshots as needed.");
         getUsage();
     }); 
 }
 
+// Calls inquirer using `usageStep` to prompt the user to enter a step description and asks if the user needs to add a screenshot for the given step
+// When finished, the step is pushed onto data.usage
+// if screenshotConfirm is true, then call getScreenshot
+// else call getAdditionalStep
 function getUsage() {
-
     inquirer.prompt(usageStep).then((answers) => {
         data.usage.push(answers.step);
 
@@ -152,24 +79,33 @@ function getUsage() {
     });
 }
 
+// Calls inquirer using `screenshot` to direct the user to input the screenshot information into the markdown
+// When finished calls getAdditionalStep
 function getScreenshot() {
     inquirer.prompt(screenshot).then((answers) => {
-        data.usage.push(answers.screenshot);
+        
+        data.usage.push(`![placeholder](..\\assets\\images\\${answers.screenshot})`);
         getAdditionalStep();
     })
 }
 
+// Calls inquirer using `additionalStep` to ask the user if another step needs to be added to the Usage section
+// if stepConfirm is true, then call getUsage and loop through again
+// else, continue to getLicense
 function getAdditionalStep() {
     inquirer.prompt(additionalStep).then((answers) => {
         if (answers.stepConfirm) {
             getUsage();
         }
         else {
+            data.usage = data.usage.join('<br>');
+
             getLicense();
         }
     });
 }
 
+// Calls inquirer using `selectLicense` to ask if a specific license needs to be referenced in the project
 function getLicense() {
     inquirer.prompt(selectLicense).then((answers) => {
         data.license = answers.license;
@@ -177,6 +113,7 @@ function getLicense() {
     })
 }
 
+// Directs the user to include guidelines for how other users can contribute to the project
 function getContributingInfo() {
     inquirer.prompt(contributingInfo).then((answers) => {
         data.contributing = answers.contributing;
@@ -185,6 +122,7 @@ function getContributingInfo() {
     })
 }
 
+// Prompts the user to provide examples for running any tests included in the project
 function getTestInfo() {
     
     inquirer.prompt(testExample).then((answers) => {
@@ -200,6 +138,8 @@ function getTestInfo() {
     });
 }
 
+// Prompts the user to provide their github and email.
+// When finished, calls writeToFile to generate the README file
 function getQuestionsInfo() {
     console.log("\nQuestions -\n This section will contain information about how users can reach you regarding any questions about your project.");
     inquirer.prompt(questionsInfo).then((answers) => {
@@ -208,11 +148,6 @@ function getQuestionsInfo() {
         console.log("\nThank you for all of your input!\n Generating your README file now...");
         writeToFile(`./output/${outputFileName}`, data);
     });
-}
-
-// TODO: Create a function to initialize app
-function init() {
-    getProjectInfo();
 }
 
 init();

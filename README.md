@@ -1,7 +1,7 @@
-# MY PROJECT TITLE [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# Professional README Generator
 
 ## Description
-MY PROJECT DESCRIPTION
+The motivation for this project was to explore the inquirer node module and to be able to use the command line to prompt and obtain user data. This project was created as a tool to reduce the time it takes to create a project README file so that the developer may spend more time working on the project itself. Through creating this project I learned how chain promises using inquirer, parse through user data received from inquirer, and how to use the fs module for creating new files.
 
 ## Table of Contents
 
@@ -14,15 +14,29 @@ MY PROJECT DESCRIPTION
 
 ## Installation
 
-INSTALL USING THIS
+To install the project dependencies, run 'npm i' while in the project root directory.
 
 ## Usage
 
-STEP 1,STEP 2,SCREEN 1
+To use this application and start the README generator, use the command 'node index.js' while in the project root directory. Once started, the user will be prompted to answer questions about their project, beginning with the project title.
+
+![start-app](./assets/images/start-app.png)
+
+Inquirer will guide the user to complete each section. When completing the Usage section, the user is able to include screenshots to give readers further guidance. The inquirer prompt at this step only asks for the screenshot's file name. The user must manually place the screenshot file into the '/assets/images' folder for the README to access the image.
+
+![screenshots](./assets/images/screenshots.png)
+
+When finished answering all of the questions, the user is presented with a confirmation message in the command line that the generator is complete and that they can find the generator README in the 'output' folder.
+
+![confirmation](./assets//images/confirmation.png)
+
+Below is an example of a README generated through the application.
+
+![output](./assets/images/output.png)
 
 ## License
 
-This project is licensed under the [APACHE 2.0](https://opensource.org/licenses/Apache-2.0) license.
+N/A
 
 ## Contributing
 
@@ -34,4 +48,4 @@ N/A
 
 ## Questions
 
-If you have any questions about the repo, open an issue or contact me directly at address@email.com. You can find more of my work at [githubname](https://github.com/githubname/).
+If you have any questions about the repo, open an issue or contact me directly at ryanfernandez11@gmail.com. You can find more of my work at [my GitHub page](https://github.com/ryanafernandez/).
